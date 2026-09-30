@@ -1,0 +1,47 @@
+# Policy Exception Governance & Risk Evaluation Process
+
+**Organization:** AetherPay Inc.  
+**Process Owner:** Governance, Risk, and Compliance (GRC)  
+
+---
+
+## 1. Process Overview
+AetherPay recognizes that rigid security policies can occasionally conflict with critical business operations or legacy technical dependencies. The **Policy Exception Process** provides a transparent, risk-evaluated pathway to grant temporary, time-bound policy workarounds without compromising enterprise security baselines.
+
+---
+
+## 2. Governance Lifecycle Workflow
+[ Business Request ]  ---> Submits formal Exception Form detailing business justification
+│
+▼
+[ Initial GRC Review] ---> GRC validates request scope, evaluates risk, and checks baseline
+│
+▼
+[ Compensating Controls] -> Requester & GRC define mandatory risk-mitigating controls
+│
+▼
+[ Escalation / Approval] -> Approvals required based on Residual Risk Level:
+• Low/Medium Risk  --> GRC Lead Approval
+• High Risk        --> CISO & VP Approval
+│
+▼
+[ Expiration & Renewal] -> Maximum duration: 90 Days. Auto-expires unless formal renewal submitted
+│
+▼
+[ Validation & Sunset] ---> GRC verifies permanent fix at expiration; closes exception
+---
+
+## 3. Approval Authority Matrix
+
+| Residual Risk Level | Maximum Exception Duration | Required Approval Sign-Off |
+| :---: | :---: | :--- |
+| **LOW (1 – 6)** | Up to 180 Days | GRC Lead |
+| **MEDIUM (8 – 12)** | Up to 90 Days | Head of Information Security / GRC Manager |
+| **HIGH (15 – 25)** | Up to 30 Days | Chief Information Security Officer (CISO) & VP of Engineering |
+
+---
+
+## 4. Mandatory Exception Requirements
+1. **Business Justification:** Exceptions are not granted for inconvenience or missed deadlines; clear business/financial impact must be demonstrated.
+2. **Compensating Controls:** Every approved exception **must** feature at least one compensating control that reduces likelihood or impact.
+3. **Hard Expiration Date:** Permanent exceptions are prohibited. All exceptions feature a strict expiration date requiring remediation verification.
