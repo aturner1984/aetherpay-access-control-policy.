@@ -1,0 +1,54 @@
+# Policy Exception Request & Risk Assessment (EXP-104)
+
+**Exception Ticket ID:** EXP-104  
+**Date Submitted:** October 14, 2026  
+**Requester:** Lead Integration Engineer (Payment Ops)  
+**Target Policy:** Access Control Policy v2.0 — Section 3.1 (Mandatory MFA) & Section 3.2 (Service Accounts)  
+**Status:** **APPROVED WITH CONDITIONS**  
+
+---
+
+## 1. Exception Request Details
+
+### Business Justification
+AetherPay is integrating a legacy clearinghouse partner API (*LegacyClear Corp*) for cross-border transaction settlements. The legacy service account used to initiate batch SFTP file transfers does not support interactive MFA or dynamic OIDC tokens. Enforcing immediate MFA will block cross-border payment processing, risking **$150,000/day** in unhandled transactions.
+
+### Requested Workaround
+Grant a 60-day exception permitting a static API key for service account `svc-legacyclear-sftp` without MFA enforcement while the engineering team migrates the integration to an AWS Secrets Manager dynamic authentication pipeline.
+
+---
+
+## 2. GRC Risk Assessment & Scoring
+
+* **Inherent Threat Scenario:** Exposed or intercepted static SFTP API key allows an unauthorized attacker to read/modify outbound clearinghouse settlement files.
+* **Inherent Risk Score:** $3 \text{ (Likelihood)} \times 4 \text{ (Impact)} = \mathbf{12\ \text{(MEDIUM)}}$
+
+---
+
+## 3. Mandatory Compensating Controls Required
+To approve this temporary bypass, GRC mandates the implementation of three technical compensating controls:
+
+1. **Strict IP Whitelisting:** Restrict the `svc-legacyclear-sftp` API key usage strictly to AetherPay’s AWS NAT Gateway static elastic IP addresses (`198.51.100.45/32`). All other source IPs blocked at the API gateway layer.
+2. **Least Privilege Scope:** Restrict service account permissions exclusively to `s3:GetObject` and `s3:PutObject` on bucket `arn:aws:s3:::aetherpay-clearinghouse-outbound/*`.
+3. **Automated Log Alerting & Secret Rotation:** Configure AWS CloudTrail alerts to trigger immediate Slack notifications on failed authentication attempts. Rotate the API key manually every 14 days during the exception window.
+
+---
+
+## 4. Residual Risk Recalculation
+
+* **Assessed Control Effectiveness ($CE$):** **75% (Strong Control)** due to strict IP whitelisting and scoped IAM policies.
+* **Calculated Residual Risk Score:**
+$$\text{Residual Risk} = 12 \times (1 - 0.75) = \mathbf{3.0\ \text{(LOW)}}$$
+
+---
+
+## 5. Decision & Formal Sign-Off
+
+* **Decision:** **APPROVED WITH CONDITIONS**
+* **Effective Date:** October 15, 2026
+* **Expiration Sunset Date:** January 13, 2027 (90-Day Maximum)
+* **Remediation Target:** Engineering must complete dynamic authentication refactoring before expiration.
+
+### Formal Approval Sign-Off:
+* **GRC Lead:** *Approved* (Oct 14, 2026)
+* **CISO:** *Approved* (Oct 15, 2026)
